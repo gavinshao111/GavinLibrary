@@ -1,0 +1,6 @@
+linux tcp socket 相关：
+1. select 监听读集时或监听读集前，某连接意外断开，select会返回读集可读，同时set此断开的描述符。
+2. select 函数返回值为状态变化的描述符个数。
+3. 阻塞或非阻塞模式下 read 返回 0 即代表连接被对方关闭。
+4. 非阻塞模式下 read ，若对方没有发送数据，返回 -1 Resource temporarily unavailable
+5. 阻塞或非阻塞模式下,连接被对方关闭，第一次 write ，第二次 write 收到Broken pipe 的信号，然后默认程序终止
