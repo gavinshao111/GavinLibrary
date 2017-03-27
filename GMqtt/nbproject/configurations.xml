@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="src" displayName="src" projectFiles="true">
+      <itemPath>src/AsyncSubscriber.cpp</itemPath>
+      <itemPath>src/AsyncSubscriber.h</itemPath>
+      <itemPath>src/Client.cpp</itemPath>
+      <itemPath>src/Client.h</itemPath>
+      <itemPath>src/Publisher.cpp</itemPath>
+      <itemPath>src/Publisher.h</itemPath>
+      <itemPath>src/Subscriber.cpp</itemPath>
+      <itemPath>src/Subscriber.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
+      <itemPath>src/SyncSubscriber.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <itemPath>src/SyncSubscriber.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="测试文件"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="重要文件"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <itemPath>readme</itemPath>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>src</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <commandlineTool>g++</commandlineTool>
+          <incDir>
+            <pElem>../ByteBuffer/src</pElem>
+            <pElem>../../../ED/paho.mqtt.c/src</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${CND_DISTDIR}/libGMqtt.${CND_DLIB_EXT}</output>
+          <linkerAddLib>
+            <pElem>../ByteBuffer/dist</pElem>
+            <pElem>../../../ED/paho.mqtt.c/build/output</pElem>
+          </linkerAddLib>
+          <commandLine>-lpaho-mqtt3as -lpaho-mqtt3cs -lbytebuffer</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="readme" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/AsyncSubscriber.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/AsyncSubscriber.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Client.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Client.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Publisher.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Publisher.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Subscriber.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Subscriber.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/SyncSubscriber.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SyncSubscriber.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="readme" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/AsyncSubscriber.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/AsyncSubscriber.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Client.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Client.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Publisher.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Publisher.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Subscriber.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Subscriber.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/SyncSubscriber.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SyncSubscriber.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

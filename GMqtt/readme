@@ -1,0 +1,2 @@
+经测试，同一个进程中，同步订阅者 与 发布者 无法同时正常运行。
+当同步订阅者调用 MQTTClient_receive 时阻塞时，发布者会阻塞在 MQTTClient_connect 直到同步订阅者调用 MQTTClient_receive 返回。
