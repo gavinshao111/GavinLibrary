@@ -16,9 +16,10 @@ using namespace bytebuf;
 
 static void AMsgarrvd(const string& payload);
 void publishTestTask(const bool& ssl);
-void asyncSubscribeMq(const bool& ssl);
 
-//const static string TcpServerAddr = "tcp://120.26.86.124:1883";
+void asyncSubscribeMq(const bool& ssl);
+void PublisherTest(const bool& ssl);
+const static string TcpServerAddr = "tcp://120.26.86.124:1883";
 const static string SslServerAddr = "ssl://120.26.86.124:8883";
 const static string ClientId = "cppTest3";
 const static string ClientIdSub = "gmqttTestSub";
@@ -26,8 +27,9 @@ const static string Username = "easydarwin";
 const static string Passwd = "123456";
 const static string Topic = "/mqttTest";
 const static string Payload = "hello world";
-const static string pathOfPrivateKey = "emqtt.key";
-const static string pathOfServerPublicKey = "emqtt.key";
+const static string pathOfPrivateKey = "/mnt/hgfs/ShareFolder/ED/emqtt.key";
+const static string pathOfServerPublicKey = "/mnt/hgfs/ShareFolder/ED/emqtt.pem";
+
 mutex mtxForMsgArrived;
 condition_variable msgArrived;
 
@@ -38,9 +40,18 @@ int main(int argc, char** argv) {
     thread pubThread(publishTestTask, ssl);
     subThread.join();
     pubThread.join();
-
-
-    cout << "done." << endl;
+    
+    cout << "ssl done." << endl;
+    
+    ssl = false;
+    thread subThread2(asyncSubscribeMq, ssl);
+    sleep(1);
+    thread pubThread2(publishTestTask, ssl);
+    subThread2.join();
+    pubThread2.join();
+    
+    cout << "tcp done." << endl;
+    
     return 0;
 }
 
@@ -56,15 +67,19 @@ static void AMsgarrvd(const string& payload) {
 }
 
 void publishTestTask(const bool& ssl) {
-    Publisher* publisher = new Publisher(SslServerAddr, ClientId, Username, Passwd);
+    string url = ssl ? SslServerAddr : TcpServerAddr;
+    Publisher* publisher = new Publisher(url, ClientId, Username, Passwd);
     ByteBuffer* payload = ByteBuffer::allocate(100);
     payload->put(Payload);
     payload->flip();
     try {
-        publisher->setSslOption(pathOfServerPublicKey, pathOfPrivateKey);
-        publisher->connect(true, 10);
-        for (int i = 0; i < 10; i++, sleep(1))
+        if (ssl)
+            publisher->setSslOption(pathOfServerPublicKey, pathOfPrivateKey);
+        publisher->connect(ssl, 10);
+        cout << "publisher connected" << endl;
+//        for (int i = 0; i < 1; i++, sleep(1))
             publisher->publish(Topic, *payload);
+        cout << "publisher published" << endl;
 
         publisher->disconnect();
     } catch (const exception& e) {
@@ -73,31 +88,40 @@ void publishTestTask(const bool& ssl) {
     payload->freeMemery();
     delete payload;
     delete publisher;
+    cout << "publisher done" << endl;
 }
 
 void asyncSubscribeMq(const bool& ssl) {
-    AsyncSubscriber* subscriber = new AsyncSubscriber(SslServerAddr, ClientIdSub, Username, Passwd);
+    string url = ssl ? SslServerAddr : TcpServerAddr;
+    AsyncSubscriber* subscriber = new AsyncSubscriber(url, ClientIdSub, Username, Passwd);
     try {
         subscriber->setMsgarrvdCallback(&AMsgarrvd);
-        subscriber->setSslOption(pathOfServerPublicKey, pathOfPrivateKey);
-        subscriber->connect(true, 10);
+        if (ssl)
+            subscriber->setSslOption(pathOfServerPublicKey, pathOfPrivateKey);
+        subscriber->connect(ssl, 10);
+        cout << "subscriber connected" << endl;
         subscriber->subscribe(Topic);
+        cout << "subscriber subscribed" << endl;
 
         unique_lock<mutex> lk(mtxForMsgArrived);
 
 #ifdef __GXX_EXPERIMENTAL_CXX0X__  // c++0x wait_for return false if timeout
         if (!msgArrived.wait_for(lk, chrono::seconds(5)))
 #else // c11
-        if (cv_status::timeout == msgArrived.wait_for(lk, chrono::seconds(10)))
+        if (cv_status::timeout == msgArrived.wait_for(lk, chrono::seconds(5)))
 #endif        
             cout << "%TEST_FAILED% time=0 testname=AsyncMQTest (gmqttTest) message="
                 << "async subscriber wait for MQ timeout" << endl;
 
-
+        else
+            cout << "subscriber test passed" << endl;
+        sleep(1);   // client must disconnect first, otherwise segmentation fault.
         subscriber->disconnect();
+        cout << "subscriber disconnected" << endl;
 
     } catch (const exception& e) {
         cout << "error: " << e.what() << endl;
     }
     delete subscriber;
+    cout << "subscriber done" << endl;
 }

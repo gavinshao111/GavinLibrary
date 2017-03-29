@@ -1,1 +1,1 @@
-g++ gmqttTest.cpp -I../../../ByteBuffer/src -L../../dist -L../../../ByteBuffer/dist -lbytebuffer -lgmqtt -std=c++0x
+g++ gmqttTest.cpp -I../../../ByteBuffer/src -L../../dist -L../../../ByteBuffer/dist -lbytebuffer -lgmqtt -std=c++0x -g
