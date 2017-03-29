@@ -16,14 +16,15 @@
 
 #include "Subscriber.h"
 namespace gmqtt {
-class SyncSubscriber : public Subscriber {
-public:
-    SyncSubscriber(const std::string& serverURI,
+
+    class SyncSubscriber : public Subscriber {
+    public:
+        SyncSubscriber(const std::string& serverURI,
                 const std::string& clientId,
                 const std::string& username,
                 const std::string& password);
-//    SyncSubscriber(const SyncSubscriber& orig);
-    virtual ~SyncSubscriber();
+        //    SyncSubscriber(const SyncSubscriber& orig);
+        virtual ~SyncSubscriber();
         /**
          * 
          * @param out_data payload will be wrote into this argument, exception throwed if in_data doesn't have enough space.
@@ -31,10 +32,10 @@ public:
          * @return true if successful, false if timeout
          */
         bool receive(bytebuf::ByteBuffer& out_data, const size_t& timeout);
-    
-private:
 
-};
+    private:
+
+    };
 }
 #endif /* SYNCSUBSCRIBER_H */
 

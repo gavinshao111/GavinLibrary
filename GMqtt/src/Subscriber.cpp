@@ -13,6 +13,8 @@
 
 #include "Subscriber.h"
 #include <iostream>
+#include <exception>
+
 using namespace gmqtt;
 using namespace std;
 
@@ -30,12 +32,15 @@ Subscriber::~Subscriber() {
 }
 
 void Subscriber::subscribe(const string& topicFilter) {
+    if (topicFilter.length() == 0 || topicFilter.at(0) != '/')
+        throw runtime_error("Subscriber::subscribe(): topicFilter needs start with '/'");
+    
     int rc;
     m_topicFilter = topicFilter;
     //    MQTTClient_setCallbacks(m_client, this, connlost, _msgarrvd, NULL);
     if (rc = MQTTClient_subscribe(m_client, m_topicFilter.c_str(), m_qos) != MQTTCLIENT_SUCCESS) {
         m_stream.clear();
-        m_stream << "subscribe fail ,return " << rc;
+        m_stream << "Subscriber::subscribe(): subscribe fail ,return " << rc;
         throw runtime_error(m_stream.str());
     }
 }

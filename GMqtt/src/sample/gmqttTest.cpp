@@ -26,8 +26,8 @@ const static string Username = "easydarwin";
 const static string Passwd = "123456";
 const static string Topic = "/mqttTest";
 const static string Payload = "hello world";
-const static string pathOfPrivateKey = "/mnt/hgfs/ShareFolder/ED/emqtt.key";
-const static string pathOfServerPublicKey = "/mnt/hgfs/ShareFolder/ED/emqtt.key";
+const static string pathOfPrivateKey = "emqtt.key";
+const static string pathOfServerPublicKey = "emqtt.key";
 mutex mtxForMsgArrived;
 condition_variable msgArrived;
 

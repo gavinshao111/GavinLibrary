@@ -12,7 +12,7 @@
  */
 
 #include "Client.h"
-
+#include <exception>
 using namespace gmqtt;
 using namespace std;
 
@@ -28,6 +28,8 @@ m_passwd(password),
 m_conn_opts((MQTTClient_connectOptions) MQTTClient_connectOptions_initializer),
 m_ssl_opts((MQTTClient_SSLOptions) MQTTClient_SSLOptions_initializer),
 m_qos(1) {
+    if (0 == serverURI.length() & clientId.length() & username.length() & password.length())
+        throw runtime_error("Client::Client(): Illegal arguement");
 
     MQTTClient_create(&m_client, serverURI.c_str(), clientId.c_str(),
             MQTTCLIENT_PERSISTENCE_NONE, NULL);
@@ -54,7 +56,7 @@ void Client::connect(const bool& ssl, const size_t& timeout) {
     if (rc != MQTTCLIENT_SUCCESS) {
         MQTTClient_destroy(&m_client);
         m_stream.clear();
-        m_stream << "Failed to connect, return " << rc;
+        m_stream << "Client::connect(): Failed to connect, return " << rc;
         throw runtime_error(m_stream.str());
     }
 }
@@ -64,6 +66,8 @@ void Client::disconnect() {
 }
 
 void Client::setSslOption(const string& pathOfServerPublicKey, const string& pathOfPrivateKey) {
+    if (0 == pathOfServerPublicKey.length() & pathOfPrivateKey.length())
+        throw runtime_error("Client::setSslOption(): Illegal arguement");
     m_serverPublicKeyPath = pathOfServerPublicKey;
     m_privateKeyPath = pathOfPrivateKey;
     m_ssl_opts.trustStore = m_serverPublicKeyPath.c_str();

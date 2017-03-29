@@ -13,6 +13,7 @@
 
 #include "AsyncSubscriber.h"
 #include <iostream>
+#include <exception>
 
 using namespace gmqtt;
 using namespace std;
@@ -21,7 +22,8 @@ AsyncSubscriber::AsyncSubscriber(const string& serverURI,
         const string& clientId,
         const string& username,
         const string& password) :
-Subscriber(serverURI, clientId, username, password) {
+Subscriber(serverURI, clientId, username, password),
+m_msgarrvd(0) {
 }
 
 //AsyncSubscriber::AsyncSubscriber(const AsyncSubscriber& orig) {
@@ -40,13 +42,13 @@ int AsyncSubscriber::_msgarrvd(void *context, char *topicName, int topicLen, MQT
         throw runtime_error("AsyncSubscriber::_msgarrvd(): IllegalArgument context");
     if (NULL == message->payload || 1 > message->payloadlen)
         throw runtime_error("AsyncSubscriber::_msgarrvd(): Illegal payload");
-    
+
     AsyncSubscriber* asyncSubscriber = (AsyncSubscriber*) context;
-    string msg((char*)message->payload, message->payloadlen);
+    string msg((char*) message->payload, message->payloadlen);
     Free(topicName, message);
     // if exception throwed from m_msgarrvd, there's no business with me, so i will not catch an exception.
     (*asyncSubscriber->m_msgarrvd)(msg);
-    
+
     return 1;
 }
 
@@ -60,6 +62,12 @@ void AsyncSubscriber::connlost(void *context, char *cause) {
     asyncSubscriber->subscribe(asyncSubscriber->m_topicFilter);
 }
 
+void AsyncSubscriber::subscribe(const string& topicFilter) {
+    if (0 == m_msgarrvd)
+        throw runtime_error("AsyncSubscriber::subscribe(): you need call AsyncSubscriber::setMsgarrvdCallback() first");
+    
+    Subscriber::subscribe(topicFilter);
+}
 
 
 
