@@ -6,8 +6,11 @@
 #include <exception>
 #include <iostream>
 #include <thread>
-#include "../Publisher.h"
-#include "../AsyncSubscriber.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/smart_ptr/make_shared_object.hpp>
+#include "../Client.h"
+//#include "../Publisher.h"
+//#include "../AsyncSubscriber.h"
 #include "ByteBuffer.h"
 
 using namespace std;
@@ -68,7 +71,8 @@ static void AMsgarrvd(const string& payload) {
 
 void publishTestTask(const bool& ssl) {
     string url = ssl ? SslServerAddr : TcpServerAddr;
-    Publisher* publisher = new Publisher(url, ClientId, Username, Passwd);
+    boost::shared_ptr<Client> publisher = boost::make_shared<Client>(url, ClientId, Username, Passwd);
+//    Client* publisher = new Client(url, ClientId, Username, Passwd);
     ByteBuffer* payload = ByteBuffer::allocate(100);
     payload->put(Payload);
     payload->flip();
@@ -85,15 +89,18 @@ void publishTestTask(const bool& ssl) {
     } catch (const exception& e) {
         cout << "error: " << e.what() << endl;
     }
+    
     payload->freeMemery();
     delete payload;
-    delete publisher;
+//    delete publisher;
+    
     cout << "publisher done" << endl;
 }
 
 void asyncSubscribeMq(const bool& ssl) {
     string url = ssl ? SslServerAddr : TcpServerAddr;
-    AsyncSubscriber* subscriber = new AsyncSubscriber(url, ClientIdSub, Username, Passwd);
+    boost::shared_ptr<Client> subscriber = boost::make_shared<Client>(url, ClientIdSub, Username, Passwd);
+//    Client* subscriber = new Client(url, ClientIdSub, Username, Passwd);
     try {
         subscriber->setMsgarrvdCallback(&AMsgarrvd);
         if (ssl)
@@ -122,6 +129,6 @@ void asyncSubscribeMq(const bool& ssl) {
     } catch (const exception& e) {
         cout << "error: " << e.what() << endl;
     }
-    delete subscriber;
+//    delete subscriber;
     cout << "subscriber done" << endl;
 }

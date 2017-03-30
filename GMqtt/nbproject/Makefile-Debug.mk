@@ -35,11 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/AsyncSubscriber.o \
-	${OBJECTDIR}/src/Client.o \
-	${OBJECTDIR}/src/Publisher.o \
-	${OBJECTDIR}/src/Subscriber.o \
-	${OBJECTDIR}/src/SyncSubscriber.o
+	${OBJECTDIR}/src/Client.o
 
 
 # C Compiler Flags
@@ -66,30 +62,10 @@ ${CND_DISTDIR}/libGMqtt.${CND_DLIB_EXT}: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}
 	${LINK.cc} -o ${CND_DISTDIR}/libGMqtt.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -lpaho-mqtt3as -lpaho-mqtt3cs -lbytebuffer -shared -fPIC
 
-${OBJECTDIR}/src/AsyncSubscriber.o: src/AsyncSubscriber.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -I../../../ED/paho.mqtt.c/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/AsyncSubscriber.o src/AsyncSubscriber.cpp
-
 ${OBJECTDIR}/src/Client.o: src/Client.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../ByteBuffer/src -I../../../ED/paho.mqtt.c/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Client.o src/Client.cpp
-
-${OBJECTDIR}/src/Publisher.o: src/Publisher.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -I../../../ED/paho.mqtt.c/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Publisher.o src/Publisher.cpp
-
-${OBJECTDIR}/src/Subscriber.o: src/Subscriber.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -I../../../ED/paho.mqtt.c/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Subscriber.o src/Subscriber.cpp
-
-${OBJECTDIR}/src/SyncSubscriber.o: src/SyncSubscriber.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -I../../../ED/paho.mqtt.c/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/SyncSubscriber.o src/SyncSubscriber.cpp
 
 # Subprojects
 .build-subprojects:

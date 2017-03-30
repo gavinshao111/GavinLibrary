@@ -35,11 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/AsyncSubscriber.o \
-	${OBJECTDIR}/src/Client.o \
-	${OBJECTDIR}/src/Publisher.o \
-	${OBJECTDIR}/src/Subscriber.o \
-	${OBJECTDIR}/src/SyncSubscriber.o
+	${OBJECTDIR}/src/Client.o
 
 
 # C Compiler Flags
@@ -66,30 +62,10 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libGMqtt.${CND_DLIB_EXT}: ${OBJECTFIL
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libGMqtt.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -shared -fPIC
 
-${OBJECTDIR}/src/AsyncSubscriber.o: src/AsyncSubscriber.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/AsyncSubscriber.o src/AsyncSubscriber.cpp
-
 ${OBJECTDIR}/src/Client.o: src/Client.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Client.o src/Client.cpp
-
-${OBJECTDIR}/src/Publisher.o: src/Publisher.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Publisher.o src/Publisher.cpp
-
-${OBJECTDIR}/src/Subscriber.o: src/Subscriber.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Subscriber.o src/Subscriber.cpp
-
-${OBJECTDIR}/src/SyncSubscriber.o: src/SyncSubscriber.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/SyncSubscriber.o src/SyncSubscriber.cpp
 
 # Subprojects
 .build-subprojects:
