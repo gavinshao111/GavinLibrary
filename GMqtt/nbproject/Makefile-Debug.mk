@@ -35,7 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/Client.o
+	${OBJECTDIR}/src/GMqttClient.o
 
 
 # C Compiler Flags
@@ -62,10 +62,10 @@ ${CND_DISTDIR}/libGMqtt.${CND_DLIB_EXT}: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}
 	${LINK.cc} -o ${CND_DISTDIR}/libGMqtt.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -lpaho-mqtt3as -lpaho-mqtt3cs -lbytebuffer -shared -fPIC
 
-${OBJECTDIR}/src/Client.o: src/Client.cpp
+${OBJECTDIR}/src/GMqttClient.o: src/GMqttClient.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -I../../../ED/paho.mqtt.c/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Client.o src/Client.cpp
+	$(COMPILE.cc) -g -I../ByteBuffer/src -I../../../ED/paho.mqtt.c/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/GMqttClient.o src/GMqttClient.cpp
 
 # Subprojects
 .build-subprojects:
