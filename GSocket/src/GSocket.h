@@ -18,9 +18,17 @@
 #include <netinet/in.h>
 #include <sys/select.h>
 #include <stdexcept>
+
+#ifdef UseBoostMutex
+#include <boost/thread/mutex.hpp>
+#else
+#include <mutex>
+#endif
+
 #include "ByteBuffer.h"
 
 namespace gavinsocket {
+
     class SocketException : public std::runtime_error {
     public:
 
@@ -37,8 +45,6 @@ namespace gavinsocket {
         };
     };
 
-
-    
     class GSocket {
     public:
         virtual ~GSocket();
@@ -47,13 +53,18 @@ namespace gavinsocket {
     private:
 
     protected:
-        GSocket(const int& port, const bool& isBlock = false);
+        GSocket(const int& port);
         GSocket(const GSocket& orig);
         int m_socketFd;
-        bool m_isBlock;
         struct sockaddr_in m_servaddr;
         fd_set m_readFds;
         
+#ifdef UseBoostMutex
+        boost::mutex m_mutex;
+#else
+        std::mutex m_mutex;
+#endif        
+
         /**
          * send the data at this src.position, 
          * if successful, the src.position is incremented by size.

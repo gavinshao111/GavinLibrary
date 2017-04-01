@@ -26,8 +26,33 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="测试文件"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="重要文件"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="测试文件"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="重要文件"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+    <itemPath>readme</itemPath>
   </logicalFolder>
   <sourceRootList>
+    <Elem>src</Elem>
+    <Elem>src</Elem>
     <Elem>src</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
@@ -43,8 +68,10 @@
           <incDir>
             <pElem>../ByteBuffer/src</pElem>
           </incDir>
+          <commandLine>-std=c++0x</commandLine>
         </ccTool>
         <linkerTool>
+          <output>${CND_DISTDIR}/libGSocket.${CND_DLIB_EXT}</output>
           <linkerAddLib>
             <pElem>../ByteBuffer/dist</pElem>
           </linkerAddLib>

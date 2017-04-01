@@ -31,8 +31,7 @@ using namespace bytebuf;
 
 extern int errno;
 
-GSocket::GSocket(const int& port, const bool& isBlock/* = false*/) :
-m_isBlock(isBlock), m_socketFd(-1) {
+GSocket::GSocket(const int& port) : m_socketFd(-1) {
     memset(&m_servaddr, 0, sizeof (m_servaddr));
     m_servaddr.sin_port = htons(port);
     m_servaddr.sin_family = AF_INET;
@@ -68,6 +67,11 @@ void GSocket::Write(const int& fd, ByteBuffer* src, const size_t& size) {
     if (src->remaining() < size)
         throw runtime_error("GSocket::Write(): data space remaining is less than the size to write");
 
+#ifdef UseBoostMutex
+    boost::unique_lock<boost::mutex> lk(m_mutex);
+#else
+    std::unique_lock<std::mutex> lk(m_mutex);
+#endif
     size_t actualNumSent = 0;
     uint8_t* _ptr = src->array();
     int currNumSent;
@@ -87,6 +91,11 @@ void GSocket::Write(const int& fd, ByteBuffer* src, const size_t& size) {
 
 void GSocket::Close() {
     if (m_socketFd > 0) {
+#ifdef UseBoostMutex
+        boost::unique_lock<boost::mutex> lk(m_mutex);
+#else
+        std::unique_lock<std::mutex> lk(m_mutex);
+#endif
         close(m_socketFd);
         m_socketFd = -1;
     }

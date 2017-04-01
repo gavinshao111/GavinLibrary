@@ -44,8 +44,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-std=c++0x
+CXXFLAGS=-std=c++0x
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -58,11 +58,11 @@ LDLIBSOPTIONS=-L../ByteBuffer/dist
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libGSocket.${CND_DLIB_EXT}
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/libGSocket.${CND_DLIB_EXT}
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libGSocket.${CND_DLIB_EXT}: ${OBJECTFILES}
-	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libGSocket.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -lbytebuffer -shared -fPIC
+${CND_DISTDIR}/libGSocket.${CND_DLIB_EXT}: ${OBJECTFILES}
+	${MKDIR} -p ${CND_DISTDIR}
+	${LINK.cc} -o ${CND_DISTDIR}/libGSocket.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -lbytebuffer -shared -fPIC
 
 ${OBJECTDIR}/src/GSocket.o: src/GSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src

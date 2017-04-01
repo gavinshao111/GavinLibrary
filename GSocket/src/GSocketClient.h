@@ -22,7 +22,7 @@ namespace gavinsocket {
 
     class GSocketClient : public GSocket {
     public:
-        GSocketClient(const std::string& ip, const int& port, const bool& isBlock = false);
+        GSocketClient(const std::string& ip, const int& port);
         //        GSocketClient(const GSocketClient& orig);
         virtual ~GSocketClient();
 

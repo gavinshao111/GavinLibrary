@@ -20,20 +20,19 @@
 #include <stdio.h>
 
 using namespace gavinsocket;
-using namespace std;
 using namespace bytebuf;
 
-GSocketServer::GSocketServer(const int& port, const bool& isBlock/* = false*/)
-: GSocket(port, isBlock) {
+GSocketServer::GSocketServer(const int& port)
+: GSocket(port) {
     m_servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     if (0 != bind(m_socketFd, (struct sockaddr *)&m_servaddr, sizeof(m_servaddr))) {
         perror("bind");
-        throw runtime_error("bind fail");
+        throw std::runtime_error("bind fail");
     }
     
     if (0 != listen(m_socketFd, 20)) {
         perror("listen");
-        throw runtime_error("listen fail");
+        throw std::runtime_error("listen fail");
     }
     
     

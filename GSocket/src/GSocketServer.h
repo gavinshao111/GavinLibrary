@@ -19,7 +19,7 @@ namespace gavinsocket {
     
 class GSocketServer : public GSocket {
 public:
-    GSocketServer(const int& port, const bool& isBlock = false);
+    GSocketServer(const int& port);
 //    GSocketServer(const GSocketServer& orig);
     virtual ~GSocketServer();
     void Write(const int& fd, bytebuf::ByteBuffer* data, const size_t& size);

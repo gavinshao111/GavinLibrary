@@ -1,1 +1,2 @@
 是基于select实现的具阻塞读写超时返回功能的同步模型的TCP库。目前仅支持Linux。
+支持线程安全，默认使用std::mutex，若想使用boost::mutex，请添加编译选项 UseBoostMutex ,并链接上boost相关库
