@@ -38,12 +38,17 @@ ByteBuffer::ByteBuffer(uint8_t* src, const size_t& length) {
 // private
 
 ByteBuffer::ByteBuffer(const size_t& pos, const size_t& lim, const size_t& cap, uint8_t* hb, const bool& isWrapped) :
-m_hb(hb), m_position(pos), m_limit(lim), m_capacity(cap), m_isWarpped(isWrapped) {
+m_hb(hb), m_position(pos), m_limit(lim), m_capacity(cap), m_isWarpped(isWrapped), m_readOnly(false) {
     if (cap == 0 || hb == NULL)
         throw ByteBufferException("ByteBuffer::ByteBuffer(): IllegalArgument");
 }
 
-ByteBuffer::ByteBuffer(const ByteBuffer& orig) : m_position(orig.m_position), m_limit(orig.m_limit), m_capacity(orig.m_capacity), m_isWarpped(orig.m_isWarpped) {
+ByteBuffer::ByteBuffer(const ByteBuffer& orig) :
+m_position(orig.m_position),
+m_limit(orig.m_limit),
+m_capacity(orig.m_capacity),
+m_isWarpped(orig.m_isWarpped),
+m_readOnly(orig.m_readOnly) {
     if (m_isWarpped)
         m_hb = orig.m_hb;
     else {
@@ -62,7 +67,7 @@ ByteBuffer::~ByteBuffer() {
 //    return new ByteBuffer(0, capacity, capacity, new uint8_t[capacity]);
 //}
 //
-//void ByteBuffer::freeMemery(void) {
+//void ByteBuffer::freeMemery() {
 //    if (_hb) {
 //        delete _hb;
 //        _hb = NULL;
@@ -82,14 +87,18 @@ ByteBuffer::~ByteBuffer() {
 //    return wrap(array, 0, capacity, capacity);
 //}
 
-void ByteBuffer::flip(void) {
+void ByteBuffer::flip() {
     m_limit = m_position;
     m_position = 0;
 }
 
-void ByteBuffer::clear(void) {
+void ByteBuffer::clear() {
     m_position = 0;
     m_limit = m_capacity;
+}
+
+void ByteBuffer::rewind() {
+    m_position = 0;
 }
 
 bool ByteBuffer::hasRemaining() const {
@@ -106,12 +115,11 @@ void ByteBuffer::checkRemaining(const size_t& bufferOffset, const size_t& length
         throw ByteBufferException("ByteBuffer::checkRemaining(): BufferOverflow");
 }
 
-size_t ByteBuffer::remaining(void) const {
+size_t ByteBuffer::remaining() const {
     return m_limit - m_position;
 }
 
 void ByteBuffer::put(const uint8_t* src, const size_t& offset, const size_t& length) {
-    checkRemaining(0, length);
     size_t end = offset + length;
     for (size_t i = offset; i < end; i++)
         put(src[i]);
@@ -119,8 +127,8 @@ void ByteBuffer::put(const uint8_t* src, const size_t& offset, const size_t& len
 
 void ByteBuffer::put(const uint8_t& src) {
     if (m_readOnly)
-        throw ByteBufferException("ByteBuffer::put(): read only");
-    
+        throw ByteBufferException("ByteBuffer::put(): ReadOnly");
+
     checkRemaining(0, 1);
     m_hb[m_position++] = src;
 }
@@ -142,20 +150,31 @@ void ByteBuffer::put(const char* src) {
 }
 
 void ByteBuffer::put(const ByteBuffer& src, const size_t& offset, const size_t& length) {
-    put(src.array(), src.position() + offset, src.remaining());
+    if (src.remaining() < offset + length)
+        throw ByteBufferException("ByteBuffer::put(): IllegalArgument");
+
+    put(src.array(), src.position() + offset, length);
 }
 
-void ByteBuffer::put(const ByteBuffer& src) {
-    put(src.array(), src.position(), src.remaining());
+void ByteBuffer::put(ByteBuffer& src, const size_t& length) {
+    size_t n = src.remaining();
+    if (&src == this || length > n)
+        throw ByteBufferException("ByteBuffer::put(): IllegalArgument");
+
+    for (size_t i = 0; i < n; i++)
+        put(src.get());
+}
+
+void ByteBuffer::put(ByteBuffer& src) {
+    put(src, src.remaining());
 }
 
 const uint8_t& ByteBuffer::get(const size_t& index) const {
     if (index > m_capacity)
         throw ByteBufferException("ByteBuffer::get(): IllegalArgument");
-    
+
     return m_hb[index];
 }
-
 
 const uint8_t& ByteBuffer::get() {
     return get(m_position++);
@@ -163,25 +182,38 @@ const uint8_t& ByteBuffer::get() {
 
 const uint16_t& ByteBuffer::getShort() {
     checkRemaining(0, 2);
-    return *(uint16_t*)m_hb;    
+    m_position += 2;
+    return *(uint16_t*) m_hb;
 }
 
-const size_t& ByteBuffer::position(void) const {
+const size_t& ByteBuffer::position() const {
     return m_position;
 }
 
 void ByteBuffer::position(const size_t& newPosition) {
     if ((newPosition > m_limit))
-        throw ByteBufferException("ByteBuffer::movePosition(): IllegalArgument");
-    
+        throw ByteBufferException("ByteBuffer::position(): IllegalArgument");
+
     m_position = newPosition;
+}
+
+const size_t& ByteBuffer::limit() const {
+    return m_limit;
+}
+
+void ByteBuffer::limit(const size_t& newLimit) {
+    if ((newLimit > m_capacity))
+        throw ByteBufferException("ByteBuffer::limit(): IllegalArgument");
+    
+    m_limit = newLimit;
+    if (m_position > m_limit) m_position = m_limit;
 }
 
 void ByteBuffer::movePosition(const size_t& length, const bool isReverse/* = false*/) {
     size_t newPos = isReverse ? (m_position - length) : (m_position + length);
     if ((newPos > m_limit))
         throw ByteBufferException("ByteBuffer::movePosition(): IllegalArgument");
-    
+
     m_position = newPos;
 }
 
@@ -200,7 +232,7 @@ void ByteBuffer::movePosition(const size_t& length, const bool isReverse/* = fal
 //    return _hb[position];
 //}
 
-//ByteBuffer* ByteBuffer::copy(void) const {
+//ByteBuffer* ByteBuffer::copy() const {
 //    if (0 >= _capacity || NULL == _hb)
 //        return NULL;
 //    ByteBuffer* copy = new ByteBuffer(_position, _limit, _capacity, new uint8_t[_capacity]);
@@ -208,18 +240,18 @@ void ByteBuffer::movePosition(const size_t& length, const bool isReverse/* = fal
 //    return copy;
 //}
 
-uint8_t* ByteBuffer::array(void) const {
+uint8_t* ByteBuffer::array() const {
     if (m_hb == NULL)
         throw ByteBufferException("ByteBuffer::array(): UnsupportedOperation");
-    
+
     return m_hb;
 }
 
-string ByteBuffer::getString() const {
-    return getString(0, remaining());
+string ByteBuffer::toString() const {
+    return toString(0, remaining());
 }
 
-string ByteBuffer::getString(const size_t& offset, const size_t& length) const {
+string ByteBuffer::toString(const size_t& offset, const size_t& length) const {
     checkRemaining(offset, length);
     string str((char*) &m_hb[m_position + offset], length);
     return str;
@@ -241,20 +273,16 @@ void ByteBuffer::outputAsHex(ostream& out, const size_t& offset, const size_t& l
 //}
 
 void ByteBuffer::outputAsDec(ostream& out) const {
-    outputAsDec(out, 0, remaining());
+    outputAsDec(out, m_position, remaining());
 }
 
 void ByteBuffer::outputAsDec(ostream& out, const size_t& offset, const size_t& length) const {
     checkRemaining(offset, length);
     for (size_t i = 0; i < length; i++)
         //        out << (short) _hb[_position + offset + i] << ' ';
-        out << setw(3) << setfill(' ') << (short) m_hb[m_position + offset + i];
+        out << setw(4) << setfill(' ') << (short) m_hb[m_position + offset + i];
 }
 
 void ByteBuffer::readOnly(const bool& readOnly) {
     m_readOnly = readOnly;
-}
-
-const bool& ByteBuffer::readOnly() const {
-    return m_readOnly;
 }
