@@ -46,7 +46,8 @@ namespace gmqtt {
         
         /**
          * 
-         * @param msgarrvd there's no exception expected throwed from msgarrvd, user should catch an exception in msgarrvd. msgarrvd is like\
+         * @param msgarrvd there's no exception expected throwed from msgarrvd, \
+         * user should catch an exception in msgarrvd. msgarrvd is like\
          * void func(const std::string& topic, bytebuf::ByteBuffer& payload). payload is read only.
          */
         void setMsgarrvdCallback(const MsgArrvdHandlerF& msgarrvd);

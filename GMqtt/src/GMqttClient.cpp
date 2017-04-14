@@ -193,9 +193,14 @@ void GMqttClient::publish(const std::string& tpc, const ByteBuffer& payload, con
     m_pubmsg.retained = 0;
     if (rc = MQTTClient_publishMessage(m_client, tpc.c_str(), &m_pubmsg, &m_token) != MQTTCLIENT_SUCCESS) {
         m_stream.clear();
-        m_stream << "publishMessage fail, return " << rc;
+        m_stream << "PublishClient::publish(): MQTTClient_publishMessage fail, return " << rc;
         throw runtime_error(m_stream.str());
     }
+    if (rc = MQTTClient_waitForCompletion(m_client, m_token, 5000) != MQTTCLIENT_SUCCESS) {
+        m_stream.clear();
+        m_stream << "PublishClient::publish(): MQTTClient_waitForCompletion fail, return " << rc;
+        throw runtime_error(m_stream.str());
+    }    
 }
 
 void GMqttClient::publish(const string& tpc, const ByteBuffer& payload) {
