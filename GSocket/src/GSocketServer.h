@@ -14,18 +14,22 @@
 #ifndef GSOCKETSERVER_H
 #define GSOCKETSERVER_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "GSocket.h"
 namespace gavinsocket {
     
-class GSocketServer : public GSocket {
+class GSocketServer {
 public:
     GSocketServer(const int& port);
 //    GSocketServer(const GSocketServer& orig);
+    boost::shared_ptr<GSocket> Accept();
     virtual ~GSocketServer();
-    void Write(const int& fd, bytebuf::ByteBuffer* data, const size_t& size);
-private:
+    void Close();
     
-
+    
+private:
+    int m_socketFd;
 };
 
 }

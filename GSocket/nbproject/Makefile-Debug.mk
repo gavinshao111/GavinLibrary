@@ -36,7 +36,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/src/GSocket.o \
-	${OBJECTDIR}/src/GSocketClient.o \
 	${OBJECTDIR}/src/GSocketServer.o
 
 
@@ -68,11 +67,6 @@ ${OBJECTDIR}/src/GSocket.o: src/GSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../ByteBuffer/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/GSocket.o src/GSocket.cpp
-
-${OBJECTDIR}/src/GSocketClient.o: src/GSocketClient.cpp
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/GSocketClient.o src/GSocketClient.cpp
 
 ${OBJECTDIR}/src/GSocketServer.o: src/GSocketServer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
