@@ -17,7 +17,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "GSocket.h"
-namespace gavinsocket {
+namespace gsocket {
     
 class GSocketServer {
 public:

@@ -21,17 +21,15 @@
 
 #include "GSocketServer.h"
 
-using namespace gavinsocket;
+using namespace gsocket;
 using namespace bytebuf;
 
 extern int errno;
 
 GSocketServer::GSocketServer(const int& port) {
-
     if ((m_socketFd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         std::string errMsg = "GSocketServer::GSocketServer(): socket: ";
-        errMsg.append(strerror(errno));
-        throw SocketException(errMsg);
+        throw SocketException(errMsg.append(strerror(errno)));
     }
 
     struct sockaddr_in servaddr;
@@ -39,16 +37,22 @@ GSocketServer::GSocketServer(const int& port) {
     servaddr.sin_port = htons(port);
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+    int on = 1;
+    if((setsockopt(m_socketFd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on))) < 0)  
+    {  
+        std::string errMsg = "GSocketServer::GSocketServer(): setsockopt: ";
+        throw SocketException(errMsg.append(strerror(errno)));
+    }  
+    
     if (0 != bind(m_socketFd, (struct sockaddr *) &servaddr, sizeof (servaddr))) {
         std::string errMsg = "GSocketServer::GSocketServer(): bind: ";
-        errMsg.append(strerror(errno));
-        throw SocketException(errMsg);
+        throw SocketException(errMsg.append(strerror(errno)));
     }
 
     if (0 != listen(m_socketFd, 20)) {
         std::string errMsg = "GSocketServer::GSocketServer(): listen: ";
-        errMsg.append(strerror(errno));
-        throw SocketException(errMsg);
+        throw SocketException(errMsg.append(strerror(errno)));
     }
 }
 
@@ -67,8 +71,7 @@ boost::shared_ptr<GSocket> GSocketServer::Accept() {
     int clientfd = accept(m_socketFd, &clientaddr, &addrlen);
     if (-1 == clientfd) {
         std::string errMsg = "GSocketServer::Accept(): accept: ";
-        errMsg.append(strerror(errno));
-        throw SocketException(errMsg);
+        throw SocketException(errMsg.append(strerror(errno)));
     }
     /*
      * because GSocket(const int& fd, const struct sockaddr& clientaddr) is private, 

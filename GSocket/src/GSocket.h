@@ -25,7 +25,7 @@
 
 #include "ByteBuffer.h"
 
-namespace gavinsocket {
+namespace gsocket {
 
     class SocketException : public std::runtime_error {
     public:
@@ -61,12 +61,12 @@ namespace gavinsocket {
          * @param port
          */
         GSocket(const std::string& ip, const int& port);
-        GSocket(const GSocket& orig);
+//        GSocket(const GSocket& orig);
         /**
          * 
          * @param data
          * @param size
-         * @param timeout Microseconds, 0 means block to read, 
+         * @param timeout millisecond, 0 means block to read, 
          * @throws SocketTimeoutException if timeout
          */
         void Read(bytebuf::ByteBuffer& data, const size_t& size, const size_t& timeout = 0);
