@@ -44,9 +44,27 @@ namespace gsocket {
     };
 
     class SocketConnectRefusedException : public SocketException {
+    public:
+        SocketConnectRefusedException(const SocketConnectRefusedException& e) : SocketException(e.what()) {
+        }
+
+        SocketConnectRefusedException() : SocketException("connect refused") {
+        }
+
+        virtual ~SocketConnectRefusedException() throw () {
+        };
     };
 
     class SocketTimeoutException : public SocketException {
+    public:
+        SocketTimeoutException(const SocketTimeoutException& e) : SocketException(e.what()) {
+        }
+
+        SocketTimeoutException() : SocketException("socket timeout") {
+        }
+
+        virtual ~SocketTimeoutException() throw () {
+        };
     };
 
     class GSocket {

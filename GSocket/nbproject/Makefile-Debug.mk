@@ -57,11 +57,11 @@ LDLIBSOPTIONS=-L../ByteBuffer/dist
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/libGSocket.${CND_DLIB_EXT}
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/libgsocket.${CND_DLIB_EXT}
 
-${CND_DISTDIR}/libGSocket.${CND_DLIB_EXT}: ${OBJECTFILES}
+${CND_DISTDIR}/libgsocket.${CND_DLIB_EXT}: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}
-	${LINK.cc} -o ${CND_DISTDIR}/libGSocket.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -lbytebuffer -shared -fPIC
+	${LINK.cc} -o ${CND_DISTDIR}/libgsocket.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -lbytebuffer -shared -fPIC
 
 ${OBJECTDIR}/src/GSocket.o: src/GSocket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src

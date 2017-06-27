@@ -57,7 +57,7 @@
   <confs>
     <conf name="Debug" type="2">
       <toolsSet>
-        <compilerSet>default</compilerSet>
+        <compilerSet>GNU|GNU</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
@@ -69,7 +69,7 @@
           <commandLine>-std=c++0x</commandLine>
         </ccTool>
         <linkerTool>
-          <output>${CND_DISTDIR}/libGSocket.${CND_DLIB_EXT}</output>
+          <output>${CND_DISTDIR}/libgsocket.${CND_DLIB_EXT}</output>
           <linkerAddLib>
             <pElem>../ByteBuffer/dist</pElem>
           </linkerAddLib>
