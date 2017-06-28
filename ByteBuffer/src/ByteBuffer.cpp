@@ -157,11 +157,10 @@ void ByteBuffer::put(const ByteBuffer& src, const size_t& offset, const size_t& 
 }
 
 void ByteBuffer::put(ByteBuffer& src, const size_t& length) {
-    size_t n = src.remaining();
-    if (&src == this || length > n)
+    if (&src == this || length > src.remaining())
         throw ByteBufferException("ByteBuffer::put(): IllegalArgument");
 
-    for (size_t i = 0; i < n; i++)
+    for (size_t i = 0; i < length; i++)
         put(src.get());
 }
 
