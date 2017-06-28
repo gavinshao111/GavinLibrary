@@ -182,7 +182,7 @@ const uint8_t& ByteBuffer::get() {
 const uint16_t& ByteBuffer::getShort() {
     checkRemaining(0, 2);
     m_position += 2;
-    return *(uint16_t*) m_hb;
+    return *(uint16_t*) (m_hb + m_position - 2);
 }
 
 const size_t& ByteBuffer::position() const {
