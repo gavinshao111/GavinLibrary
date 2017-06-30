@@ -44,10 +44,6 @@ GSocket::GSocket(const int& fd, const struct sockaddr& clientaddr) : m_socketFd(
     memcpy(&m_clientaddr, &clientaddr, sizeof (struct sockaddr));
 }
 
-GSocket::GSocket(const GSocket& orig) {
-    throw SocketException("GSocket's copy constructor not allowed to be called");
-}
-
 GSocket::~GSocket() {
     Close();
 }

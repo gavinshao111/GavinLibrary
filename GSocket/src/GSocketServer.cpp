@@ -56,11 +56,6 @@ GSocketServer::GSocketServer(const int& port) {
     }
 }
 
-
-
-//GSocketServer::GSocketServer(const GSocketServer& orig) {
-//}
-
 GSocketServer::~GSocketServer() {
     Close();
 }

@@ -22,13 +22,12 @@ namespace gsocket {
 class GSocketServer {
 public:
     GSocketServer(const int& port);
-//    GSocketServer(const GSocketServer& orig);
     boost::shared_ptr<GSocket> Accept();
     virtual ~GSocketServer();
     void Close();
     
-    
 private:
+    GSocketServer(const GSocketServer& orig);
     int m_socketFd;
 };
 

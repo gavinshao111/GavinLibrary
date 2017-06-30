@@ -76,8 +76,6 @@ namespace gsocket {
          */
         GSocket(const std::string& ip, const int& port);
         
-        GSocket(const GSocket& orig);
-        
         virtual ~GSocket();
         
         void Close();
@@ -106,8 +104,8 @@ namespace gsocket {
 
     private:
         GSocket(const int& fd, const struct sockaddr& clientaddr);
-        void createSocket();
-        
+        GSocket(const GSocket& orig);
+                
         int m_socketFd;
         struct sockaddr m_clientaddr;
 
