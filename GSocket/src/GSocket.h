@@ -22,7 +22,6 @@
 #else
 #include <mutex>
 #endif
-
 #include "ByteBuffer.h"
 
 namespace gsocket {
@@ -69,9 +68,6 @@ namespace gsocket {
 
     class GSocket {
     public:
-        virtual ~GSocket();
-        void Close();
-        void Connect(/*const size_t& timeout = 0*/);
         /**
          * connect to a specific server
          * @param ip
@@ -79,7 +75,14 @@ namespace gsocket {
          * @param port
          */
         GSocket(const std::string& ip, const int& port);
-//        GSocket(const GSocket& orig);
+        
+        GSocket(const GSocket& orig);
+        
+        virtual ~GSocket();
+        
+        void Close();
+        
+        void Connect(/*const size_t& timeout = 0*/);
         /**
          * 
          * @param data
@@ -103,6 +106,8 @@ namespace gsocket {
 
     private:
         GSocket(const int& fd, const struct sockaddr& clientaddr);
+        void createSocket();
+        
         int m_socketFd;
         struct sockaddr m_clientaddr;
 

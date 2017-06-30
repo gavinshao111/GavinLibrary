@@ -32,11 +32,7 @@ using namespace bytebuf;
 extern int errno;
 const static int ConnectionRefusedErrCode = 111;
 
-GSocket::GSocket(const std::string& ip, const int& port) {
-    if ((m_socketFd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-        std::string errMsg = "GSocket::GSocket(): socket: ";
-        throw SocketException(errMsg.append(strerror(errno)));
-    }
+GSocket::GSocket(const std::string& ip, const int& port) : m_socketFd(-1){
     memset(&m_servaddr, 0, sizeof (m_servaddr));
     m_servaddr.sin_addr.s_addr = inet_addr(ip.c_str());
     m_servaddr.sin_port = htons(port);
@@ -48,8 +44,9 @@ GSocket::GSocket(const int& fd, const struct sockaddr& clientaddr) : m_socketFd(
     memcpy(&m_clientaddr, &clientaddr, sizeof (struct sockaddr));
 }
 
-//GSocket::GSocket(const GSocket& orig) {
-//}
+GSocket::GSocket(const GSocket& orig) {
+    throw SocketException("GSocket's copy constructor not allowed to be called");
+}
 
 GSocket::~GSocket() {
     Close();
@@ -59,6 +56,10 @@ void GSocket::Connect(/*const size_t& timeout = 0*/) {
     if (isConnected())
         return;
 
+    if ((m_socketFd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+        std::string errMsg = "GSocket::Connect(): socket: ";
+        throw SocketException(errMsg.append(strerror(errno)));
+    }
     if (connect(m_socketFd, (struct sockaddr*) &m_servaddr, sizeof (m_servaddr)) < 0) {
         if (ConnectionRefusedErrCode == errno)
             throw SocketConnectRefusedException();
