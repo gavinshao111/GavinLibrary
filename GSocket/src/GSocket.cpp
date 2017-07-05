@@ -52,6 +52,11 @@ void GSocket::Connect(/*const size_t& timeout = 0*/) {
     if (isConnected())
         return;
 
+#ifdef UseBoostMutex
+    boost::unique_lock<boost::mutex> lk(m_connectMutex);
+#else
+    std::unique_lock<std::mutex> lk(m_connectMutex);
+#endif
     if ((m_socketFd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         std::string errMsg = "GSocket::Connect(): socket: ";
         throw SocketException(errMsg.append(strerror(errno)));
@@ -79,9 +84,9 @@ void GSocket::Write(ByteBuffer& src, const size_t& size) {
         throw SocketException("GSocket::Write(): data space remaining is less than the size to write");
 
 #ifdef UseBoostMutex
-    boost::unique_lock<boost::mutex> lk(m_mutex);
+    boost::unique_lock<boost::mutex> lk(m_writeMutex);
 #else
-    std::unique_lock<std::mutex> lk(m_mutex);
+    std::unique_lock<std::mutex> lk(m_writeMutex);
 #endif
     size_t actualNumSent = 0;
     const uint8_t* writeBuf = src.array();
@@ -106,11 +111,15 @@ void GSocket::Write(ByteBuffer& src) {
 
 void GSocket::Close() {
     if (m_socketFd > 0) {
-#ifdef UseBoostMutex
-        boost::unique_lock<boost::mutex> lk(m_mutex);
-#else
-        std::unique_lock<std::mutex> lk(m_mutex);
-#endif
+//#ifdef UseBoostMutex
+//        boost::unique_lock<boost::mutex> lk(m_connectMutex);
+//        boost::unique_lock<boost::mutex> lk2(m_readMutex);
+//        boost::unique_lock<boost::mutex> lk3(m_writeMutex);
+//#else
+//        std::unique_lock<std::mutex> lk(m_connectMutex);
+//        std::unique_lock<std::mutex> lk2(m_readMutex);
+//        std::unique_lock<std::mutex> lk3(m_writeMutex);
+//#endif
         close(m_socketFd);
         m_socketFd = -1;
     }
@@ -121,9 +130,9 @@ void GSocket::Read(ByteBuffer& data, const size_t& size, const size_t& timeout/*
         throw SocketException("GSocket::Read(): data space remaining is less than the size to read");
 
 #ifdef UseBoostMutex
-    boost::unique_lock<boost::mutex> lk(m_mutex);
+    boost::unique_lock<boost::mutex> lk(m_readMutex);
 #else
-    std::unique_lock<std::mutex> lk(m_mutex);
+    std::unique_lock<std::mutex> lk(m_readMutex);
 #endif
     uint8_t buf[size];
     size_t actualNumRead = 0;

@@ -113,9 +113,13 @@ namespace gsocket {
         fd_set m_readFds;
 
 #ifdef UseBoostMutex
-        boost::mutex m_mutex;
+        boost::mutex m_connectMutex;
+        boost::mutex m_readMutex;
+        boost::mutex m_writeMutex;
 #else
-        std::mutex m_mutex;
+        std::mutex m_connectMutex;
+        std::mutex m_readMutex;
+        std::mutex m_writeMutex;
 #endif
         friend class GSocketServer;
     };
