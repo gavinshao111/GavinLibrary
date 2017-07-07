@@ -5,33 +5,33 @@
  */
 
 /* 
- * File:   GSocketServer.h
+ * File:   socketserver.h
  * Author: 10256
  *
  * Created on 2017年3月13日, 下午1:48
  */
 
-#ifndef GSOCKETSERVER_H
-#define GSOCKETSERVER_H
+#ifndef SOCKETSERVER_H
+#define SOCKETSERVER_H
 
 #include <boost/shared_ptr.hpp>
 
-#include "GSocket.h"
+#include "socket.h"
 namespace gsocket {
     
-class GSocketServer {
+class socketserver {
 public:
-    GSocketServer(const int& port);
-    boost::shared_ptr<GSocket> Accept();
-    virtual ~GSocketServer();
-    void Close();
+    socketserver(const int& port);
+    boost::shared_ptr<socket> accept();
+    virtual ~socketserver();
+    void close();
     
 private:
-    GSocketServer(const GSocketServer& orig);
+    socketserver(const socketserver& orig);
     int m_socketFd;
 };
 
 }
 
-#endif /* GSOCKETSERVER_H */
+#endif /* SOCKETSERVER_H */
 

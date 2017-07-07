@@ -5,14 +5,14 @@
  */
 
 /* 
- * File:   GSocket.h
+ * File:   socket.h
  * Author: 10256
  *
  * Created on 2017年3月13日, 上午11:28
  */
 
-#ifndef GSOCKET_H
-#define GSOCKET_H
+#ifndef SOCKET_H
+#define SOCKET_H
 
 #include <string>
 #include <netinet/in.h>
@@ -66,7 +66,7 @@ namespace gsocket {
         };
     };
 
-    class GSocket {
+    class socket {
     public:
         /**
          * connect to a specific server
@@ -74,23 +74,37 @@ namespace gsocket {
          * 
          * @param port
          */
-        GSocket(const std::string& ip, const int& port);
+        socket(const std::string& ip, const int& port);
         
-        virtual ~GSocket();
+        virtual ~socket();
         
-        void Close();
+        void close();
         
-        void Connect(/*const size_t& timeout = 0*/);
+        void connect(/*const size_t& timeout = 0*/);
         /**
          * 
-         * @param data
+         * @param dest
          * @param size
          * @param timeout millisecond, 0 means block to read, 
          * @throws SocketTimeoutException if timeout
+         * timeout单位为ms，此函数会个问题，在超时前，即使socket被外部关闭，内部的select仍阻塞。
          */
-        void Read(bytebuf::ByteBuffer& data, const size_t& size, const size_t& timeout = 0);
+        void read_old(bytebuf::ByteBuffer& dest, const size_t& size, const size_t& timeout = 0);
 
-        void Write(bytebuf::ByteBuffer& src, const size_t& size);
+        /**
+         * 
+         * @param dest
+         * @param size
+         * @param timeout second, 0 means block to read, 
+         * @throws SocketTimeoutException if timeout
+         * 
+         * 解决了read_old无限阻塞的问题。
+         * timeout单位为s，内部循环调用超时为0.1s的select函数，循环中每次都检查连接是否正常，否则抛异常。
+         * 循环直到时间超过timeout。这样可以避免即使连接断开，函数仍阻塞的情况。
+         */
+        void read(bytebuf::ByteBuffer& dest, const size_t& size, const size_t& timeout = 0);
+
+        void write(bytebuf::ByteBuffer& src, const size_t& size);
 
         /**
          * send the data at this src.position, 
@@ -99,17 +113,17 @@ namespace gsocket {
          * @param src read only
          * @param size
          */
-        void Write(bytebuf::ByteBuffer& src);
+        void write(bytebuf::ByteBuffer& src);
         bool isConnected() const;
 
     private:
-        GSocket(const int& fd, const struct sockaddr& clientaddr);
-        GSocket(const GSocket& orig);
+        socket(const int& fd, const struct ::sockaddr& clientaddr);
+        socket(const socket& orig);
                 
         int m_socketFd;
-        struct sockaddr m_clientaddr;
+        struct ::sockaddr m_clientaddr;
 
-        struct sockaddr_in m_servaddr;
+        struct ::sockaddr_in m_servaddr;
         fd_set m_readFds;
 
 #ifdef UseBoostMutex
@@ -121,10 +135,10 @@ namespace gsocket {
         std::mutex m_readMutex;
         std::mutex m_writeMutex;
 #endif
-        friend class GSocketServer;
+        friend class socketserver;
     };
 }
 
-#endif /* GSOCKET_H */
+#endif /* SOCKET_H */
 
 

@@ -35,8 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/GSocket.o \
-	${OBJECTDIR}/src/GSocketServer.o
+	${OBJECTDIR}/src/socket.o \
+	${OBJECTDIR}/src/socketserver.o
 
 
 # C Compiler Flags
@@ -63,15 +63,15 @@ ${CND_DISTDIR}/libgsocket.${CND_DLIB_EXT}: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}
 	${LINK.cc} -o ${CND_DISTDIR}/libgsocket.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -lbytebuffer -shared -fPIC
 
-${OBJECTDIR}/src/GSocket.o: src/GSocket.cpp
+${OBJECTDIR}/src/socket.o: src/socket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/GSocket.o src/GSocket.cpp
+	$(COMPILE.cc) -g -I../ByteBuffer/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/socket.o src/socket.cpp
 
-${OBJECTDIR}/src/GSocketServer.o: src/GSocketServer.cpp
+${OBJECTDIR}/src/socketserver.o: src/socketserver.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/GSocketServer.o src/GSocketServer.cpp
+	$(COMPILE.cc) -g -I../ByteBuffer/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/socketserver.o src/socketserver.cpp
 
 # Subprojects
 .build-subprojects:
