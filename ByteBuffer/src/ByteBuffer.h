@@ -172,6 +172,8 @@ namespace bytebuf {
         void outputAsHex(std::ostream& out, const size_t& offset, const size_t& length) const;
         void outputAsDec(std::ostream& out) const;
         void outputAsDec(std::ostream& out, const size_t& offset, const size_t& length) const;
+        void outputAsOct(std::ostream& out) const;
+        void outputAsOct(std::ostream& out, const size_t& offset, const size_t& length) const;
         void readOnly(const bool& readOnly);
         const bool& readOnly() const;
         //        uint8_t* arrayOfPosition() const;

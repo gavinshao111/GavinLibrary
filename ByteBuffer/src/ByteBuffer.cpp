@@ -141,7 +141,7 @@ void ByteBuffer::put(const uint32_t& src) {
     put((uint8_t*) & src, 0, 4);
 }
 
-void ByteBuffer::put(const std::string& src) {
+void ByteBuffer::put(const string& src) {
     put((uint8_t*) src.data(), 0, src.length());
 }
 
@@ -203,7 +203,7 @@ const size_t& ByteBuffer::limit() const {
 void ByteBuffer::limit(const size_t& newLimit) {
     if ((newLimit > m_capacity))
         throw ByteBufferException("ByteBuffer::limit(): IllegalArgument");
-    
+
     m_limit = newLimit;
     if (m_position > m_limit) m_position = m_limit;
 }
@@ -266,10 +266,6 @@ void ByteBuffer::outputAsHex(ostream& out, const size_t& offset, const size_t& l
         out << hex << (short) m_hb[m_position + offset + i] << ' ';
     //        out << hex << setw(3) << setfill(' ') << (short) _hb[_position + offset + i];
 }
-//
-//uint8_t* ByteBuffer::arrayOfPosition() const {
-//    return array() + _position;
-//}
 
 void ByteBuffer::outputAsDec(ostream& out) const {
     outputAsDec(out, m_position, remaining());
@@ -280,6 +276,17 @@ void ByteBuffer::outputAsDec(ostream& out, const size_t& offset, const size_t& l
     for (size_t i = 0; i < length; i++)
         //        out << (short) _hb[_position + offset + i] << ' ';
         out << setw(4) << setfill(' ') << (short) m_hb[m_position + offset + i];
+}
+
+void ByteBuffer::outputAsOct(ostream& out) const {
+    outputAsOct(out, m_position, remaining());
+}
+
+void ByteBuffer::outputAsOct(ostream& out, const size_t& offset, const size_t& length) const {
+    checkRemaining(offset, length);
+    for (size_t i = 0; i < length; i++)
+        //        out << (short) _hb[_position + offset + i] << ' ';
+        out << setw(4) << setfill(' ') << oct << (short) m_hb[m_position + offset + i];
 }
 
 void ByteBuffer::readOnly(const bool& readOnly) {
