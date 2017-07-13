@@ -174,7 +174,7 @@ void ByteBuffer::put(const ByteBuffer& src, const size_t& offset, const size_t& 
 void ByteBuffer::put(ByteBuffer& src, const size_t& length) {
     if (&src == this)
         throw ByteBufferException("ByteBuffer::put(): IllegalArgument, &src == this");
-    
+
     if (length > src.remaining()) {
         stringstream s;
         s << "ByteBuffer::put(): IllegalArgument"
@@ -304,8 +304,7 @@ void ByteBuffer::outputAsHex(ostream& out) const {
 void ByteBuffer::outputAsHex(ostream& out, const size_t& offset, const size_t& length) const {
     checkRemaining(offset, length);
     for (size_t i = 0; i < length; i++)
-        out << hex << (short) m_hb[m_position + offset + i] << ' ';
-    //        out << hex << setw(3) << setfill(' ') << (short) _hb[_position + offset + i];
+        out << hex << setw(3) << setfill(' ') << (short) m_hb[m_position + offset + i];
 }
 
 void ByteBuffer::outputAsDec(ostream& out) const {
@@ -315,7 +314,6 @@ void ByteBuffer::outputAsDec(ostream& out) const {
 void ByteBuffer::outputAsDec(ostream& out, const size_t& offset, const size_t& length) const {
     checkRemaining(offset, length);
     for (size_t i = 0; i < length; i++)
-        //        out << (short) _hb[_position + offset + i] << ' ';
         out << setw(4) << setfill(' ') << (short) m_hb[m_position + offset + i];
 }
 
