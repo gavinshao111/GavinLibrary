@@ -38,6 +38,7 @@ using namespace bytebuf;
 
 extern int errno;
 const static int ConnectionRefusedErrCode = 111;
+const static int BadFileDescriptor = 9;
 
 socket::socket(const std::string& ip, const int& port) : m_socketFd(-1) {
     memset(&m_servaddr, 0, sizeof (m_servaddr));
@@ -68,7 +69,7 @@ void socket::connect(/*const size_t& timeout = 0*/) {
         std::string errMsg = "socket::connect(): socket: ";
         throw SocketException(errMsg.append(::strerror(errno)));
     }
-    if (::connect(m_socketFd, (struct ::sockaddr*) &m_servaddr, sizeof (m_servaddr)) < 0) {
+    if (::connect(m_socketFd, (struct ::sockaddr*) & m_servaddr, sizeof (m_servaddr)) < 0) {
         if (ConnectionRefusedErrCode == errno)
             throw SocketConnectRefusedException();
         std::string errMsg = "socket::connect(): connect: ";
@@ -146,7 +147,7 @@ void socket::read_old(ByteBuffer& dest, const size_t& size, const size_t& timeou
     int currNumread;
     struct ::timeval* timeLeft;
 
-    struct ::timeval tv = {timeout / 1000, 0};
+    struct ::timeval tv = {(time_t)timeout / 1000, 0};
     if (0 == timeout)
         timeLeft = NULL;
     else {
@@ -197,17 +198,19 @@ void socket::read(ByteBuffer& dest, const size_t& size, const size_t& timeout/* 
 
     for (; size > actualNumread;) {
         for (size_t t_100msUsed = 0;;) {
+            if (!this->isConnected())
+                throw SocketException("socket::read(): connection closed");
             // select返回后会把以前加入的但并无事件发生的fd清空
             FD_ZERO(&m_readFds);
             FD_SET(m_socketFd, &m_readFds);
             int err = ::select(m_socketFd + 1, &m_readFds, NULL, NULL, &t_100ms);
             if (0 > err) {
+                if (errno == BadFileDescriptor)
+                    throw SocketException("socket::read(): connection closed");
                 std::string errMsg = "socket::read(): select: ";
                 throw SocketException(errMsg.append(::strerror(errno)));
             } else if (0 == err) {
                 if (timeout == 0) {
-                    if (!this->isConnected())
-                        throw SocketException("socket::read(): connection closed");
                     continue;
                 }
                 t_100msUsed++;
