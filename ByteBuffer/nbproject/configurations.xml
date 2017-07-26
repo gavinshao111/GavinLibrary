@@ -36,7 +36,7 @@
       </toolsSet>
       <compileType>
         <linkerTool>
-          <output>${CND_DISTDIR}/libbytebuffer.${CND_DLIB_EXT}</output>
+          <output>../lib/libbytebuffer.${CND_DLIB_EXT}</output>
         </linkerTool>
       </compileType>
       <item path="src/ByteBuffer.cpp" ex="false" tool="1" flavor2="0">

@@ -13,7 +13,7 @@ CND_BUILDDIR=build
 CND_DLIB_EXT=so
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=${CND_DISTDIR}/libbytebuffer.${CND_DLIB_EXT}
+OUTPUT_PATH=../lib/libbytebuffer.${CND_DLIB_EXT}
 OUTPUT_BASENAME=libbytebuffer.${CND_DLIB_EXT}
 PACKAGE_TOP_DIR=libByteBuffer.so/
 
