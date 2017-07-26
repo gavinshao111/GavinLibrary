@@ -58,8 +58,6 @@ m_readOnly(orig.m_readOnly) {
         m_hb = new uint8_t[m_capacity];
         memcpy(m_hb, orig.m_hb, m_capacity);
     }
-    // test
-    cout << "copy construct" << endl;
 }
 
 ByteBuffer::~ByteBuffer() {
