@@ -61,22 +61,24 @@ namespace bytebuf {
     public:
 
         ByteBuffer(const size_t& capacity);
+        // Warpped
         ByteBuffer(uint8_t* src, const size_t& offset, const size_t& length);
+        // Warpped
         ByteBuffer(uint8_t* src, const size_t& length);
 
         ByteBuffer(const ByteBuffer& orig);
         virtual ~ByteBuffer();
 
-        void flip();
-        void clear();
-        void rewind();
+        ByteBuffer& flip();
+        ByteBuffer& clear();
+        ByteBuffer& rewind();
         bool hasRemaining() const;
-        void put(const uint8_t& src);
-        void put(const uint16_t& src);
-        void put(const uint32_t& src);
-        void put(const char* src);
-        void put(const std::string& src);
-        void put(const uint8_t* src, const size_t& offset, const size_t& length);
+        ByteBuffer& put(const uint8_t& src);
+        ByteBuffer& put(const uint16_t& src);
+        ByteBuffer& put(const uint32_t& src);
+        ByteBuffer& put(const char* src);
+        ByteBuffer& put(const std::string& src);
+        ByteBuffer& put(const uint8_t* src, const size_t& offset, const size_t& length);
         
         /**
          * This method copies <i>length</i> of bytes from src.position + offset
@@ -96,7 +98,7 @@ namespace bytebuf {
          * @param length
          * length of bytes to be copied from source.
          */
-        void put(const ByteBuffer& src, const size_t& offset, const size_t& length);
+        ByteBuffer& put(const ByteBuffer& src, const size_t& offset, const size_t& length);
         
         /**
          * This method copies <i>length</i> of bytes remaining in the given 
@@ -111,7 +113,7 @@ namespace bytebuf {
          * @param length
          * length of bytes to be copied from source.
          */
-        void put(ByteBuffer& src, const size_t& length);
+        ByteBuffer& put(ByteBuffer& src, const size_t& length);
         
         /**
          * This method copies <i>n</i> = </i>src.remaining()</i> of bytes 
@@ -123,7 +125,7 @@ namespace bytebuf {
          * The source buffer from which bytes are to be read; must not be this 
          * buffer
          */
-        void put(ByteBuffer& src);
+        ByteBuffer& put(ByteBuffer& src);
 
         const uint8_t& get(const size_t& index) const;
 
@@ -147,12 +149,12 @@ namespace bytebuf {
 
         size_t remaining() const;
         const size_t& position() const;
-        void position(const size_t& newPosition);
+        ByteBuffer& position(const size_t& newPosition);
 
         const size_t& limit() const;
-        void limit(const size_t& newLimit);        
+        ByteBuffer& limit(const size_t& newLimit);        
         
-        void movePosition(const size_t& length, const bool isReverse = false);
+        ByteBuffer& movePosition(const size_t& length, const bool isReverse = false);
 //        void modifyMemery(const uint8_t* src, const size_t& offset, const size_t& length, const size_t& position);
 
 
@@ -165,16 +167,18 @@ namespace bytebuf {
         }
 
         uint8_t* array() const;
-        std::string toString() const;
-        std::string toString(const size_t& offset, const size_t& length) const;
+        std::string to_str();
+        std::string to_str(const size_t& offset, const size_t& length);
 
-        void outputAsHex(std::ostream& out) const;
-        void outputAsHex(std::ostream& out, const size_t& offset, const size_t& length) const;
-        void outputAsDec(std::ostream& out) const;
-        void outputAsDec(std::ostream& out, const size_t& offset, const size_t& length) const;
-        void outputAsOct(std::ostream& out) const;
-        void outputAsOct(std::ostream& out, const size_t& offset, const size_t& length) const;
-        void readOnly(const bool& readOnly);
+        std::string to_hex();
+        std::string to_hex(const size_t& offset, const size_t& length);
+        std::string to_dec();
+        std::string to_dec(const size_t& offset, const size_t& length);
+        std::string to_oct();
+        std::string to_oct(const size_t& offset, const size_t& length);
+        
+        
+        ByteBuffer& readOnly(const bool& readOnly);
         const bool& readOnly() const;
         //        uint8_t* arrayOfPosition() const;
 
@@ -197,7 +201,7 @@ namespace bytebuf {
          * offset from current position
          * @param length
          */
-        void checkRemaining(const size_t& bufferOffset, const size_t& length) const;
+        ByteBuffer& checkRemaining(const size_t& bufferOffset, const size_t& length);
 
     };
 }
