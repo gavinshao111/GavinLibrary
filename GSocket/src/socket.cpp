@@ -197,7 +197,7 @@ void socket::read(ByteBuffer& dest, const size_t& size, const size_t& timeout/* 
     struct ::timeval t_100ms = {100 / 1000, 0};
 
     for (; size > actualNumread;) {
-        for (size_t t_100msUsed = 0;;) {
+        for (size_t t_100msUsed = 0;;usleep(900)) {
             if (!this->isConnected())
                 throw SocketException("socket::read(): connection closed");
             // select返回后会把以前加入的但并无事件发生的fd清空
