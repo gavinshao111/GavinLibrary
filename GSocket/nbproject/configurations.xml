@@ -44,7 +44,6 @@
           <incDir>
             <pElem>../ByteBuffer/src</pElem>
           </incDir>
-          <commandLine>-std=c++0x</commandLine>
         </ccTool>
         <linkerTool>
           <output>../lib/libgsocket.${CND_DLIB_EXT}</output>

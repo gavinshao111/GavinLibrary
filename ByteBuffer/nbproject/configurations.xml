@@ -35,9 +35,6 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
-        <ccTool>
-          <commandLine>-std=c++0x</commandLine>
-        </ccTool>
         <linkerTool>
           <output>../lib/libbytebuffer.${CND_DLIB_EXT}</output>
         </linkerTool>
