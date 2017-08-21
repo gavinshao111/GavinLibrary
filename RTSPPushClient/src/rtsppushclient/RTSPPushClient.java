@@ -109,6 +109,8 @@ public class RTSPPushClient {
     public void close() {
         m_rtpStream.close();
         m_rtspSession.close();
+        m_sps = null;
+        m_pps = null;
     }
 
     private boolean setupRTSPSession() {
