@@ -5,12 +5,6 @@
       <itemPath>src/ByteBuffer.cpp</itemPath>
       <itemPath>src/ByteBuffer.h</itemPath>
     </logicalFolder>
-    <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
-    </logicalFolder>
-    <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
-    </logicalFolder>
-    <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
-    </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="测试文件"
                    projectFiles="false"
@@ -20,7 +14,10 @@
                    displayName="重要文件"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Android.mk</itemPath>
+      <itemPath>Application.mk</itemPath>
       <itemPath>Makefile</itemPath>
+      <itemPath>ndk_build.sh</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>

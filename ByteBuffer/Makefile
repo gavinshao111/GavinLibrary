@@ -126,3 +126,8 @@ include nbproject/Makefile-impl.mk
 
 # include project make variables
 include nbproject/Makefile-variables.mk
+
+install:
+	cp -f ../lib/libbytebuffer.so /usr/local/lib
+uninstall:
+	rm -f /usr/local/lib/libbytebuffer.so

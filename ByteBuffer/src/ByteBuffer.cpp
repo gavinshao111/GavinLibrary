@@ -211,6 +211,26 @@ const uint8_t& ByteBuffer::get() {
     return get(m_position++);
 }
 
+void ByteBuffer::get(uint8_t* const dst, const size_t& offset, const size_t& length, const size_t& dst_length) {
+    if (offset + length > dst_length) {
+        stringstream s;
+        s << "ByteBuffer::get(): IllegalArgument"
+                << ", offset: " << offset
+                << ", length: " << length
+                << ", dst_length: " << dst_length;
+        throw ByteBufferException(s.str());
+    }
+    if (length > remaining()) {
+        stringstream s;
+        s << "ByteBuffer::get(): Underflow"
+                << ", length: " << length
+                << ", remaining: " << remaining();
+        throw ByteBufferException(s.str());
+    }
+    ::memcpy(dst + offset, m_hb + m_position, length);
+    movePosition(length);
+}
+
 const uint16_t& ByteBuffer::getShort() {
     checkRemaining(0, 2);
     m_position += 2;

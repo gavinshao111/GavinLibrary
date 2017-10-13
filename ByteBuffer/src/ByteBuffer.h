@@ -79,7 +79,7 @@ namespace bytebuf {
         ByteBuffer& put(const char* src);
         ByteBuffer& put(const std::string& src);
         ByteBuffer& put(const uint8_t* src, const size_t& offset, const size_t& length);
-        
+
         /**
          * This method copies <i>length</i> of bytes from src.position + offset
          * from src into this buffer, starting at each buffer's current position.
@@ -99,7 +99,7 @@ namespace bytebuf {
          * length of bytes to be copied from source.
          */
         ByteBuffer& put(const ByteBuffer& src, const size_t& offset, const size_t& length);
-        
+
         /**
          * This method copies <i>length</i> of bytes remaining in the given 
          * source buffer into this buffer, starting at each buffer's current 
@@ -114,7 +114,7 @@ namespace bytebuf {
          * length of bytes to be copied from source.
          */
         ByteBuffer& put(ByteBuffer& src, const size_t& length);
-        
+
         /**
          * This method copies <i>n</i> = </i>src.remaining()</i> of bytes 
          * remaining in the given source buffer into this buffer, starting at 
@@ -138,6 +138,62 @@ namespace bytebuf {
         const uint8_t& get();
 
         /**
+         * Relative bulk <i>get</i> method.
+         *
+         * <p> This method transfers bytes from this buffer into the given
+         * destination array.  If there are fewer bytes remaining in the
+         * buffer than are required to satisfy the request, that is, if
+         * <tt>length</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>, then no
+         * bytes are transferred and a {@link ByteBufferException} is
+         * thrown.  If <tt>dst_length</tt> is smaller than <tt>length</tt>,
+         * a {@link ByteBufferException} is thrown.
+         * 
+         * <p> Otherwise, this method copies <tt>length</tt> bytes from this
+         * buffer into the given array, starting at the current position of this
+         * buffer and at the given offset in the array.  The position of this
+         * buffer is then incremented by <tt>length</tt>.
+         *
+         * <p> In other words, an invocation of this method of the form
+         * <tt>src.get(dst,&nbsp;off,&nbsp;len)</tt> has exactly the same effect as
+         * the loop
+         *
+         * <pre>{@code
+         *     for (int i = off; i < off + len; i++)
+         *         dst[i] = src.get():
+         * }</pre>
+         *
+         * except that it first checks that there are sufficient bytes in
+         * this buffer and it is potentially much more efficient.
+         *
+         * @param  dst
+         *         The array into which bytes are to be written
+         *
+         * @param  offset
+         *         The offset within the array of the first byte to be
+         *         written; must be non-negative and no larger than
+         *         <tt>dst.length</tt>
+         *
+         * @param  dst_length
+         *         The length of dst.
+         *
+         * @param  length
+         *         The maximum number of bytes to be written to the given
+         *         array; must be non-negative and no larger than
+         *         <tt>dst.length - offset</tt>
+         * 
+         * @return  This buffer
+         *
+         * @throws  BufferUnderflowException
+         *          If there are fewer than <tt>length</tt> bytes
+         *          remaining in this buffer
+         *
+         * @throws  IndexOutOfBoundsException
+         *          If the preconditions on the <tt>offset</tt> and <tt>length</tt>
+         *          parameters do not hold
+         */
+        void get(uint8_t* const dst, const size_t& offset, const size_t& length, const size_t& dst_length);
+
+        /**
          *
          * <p> Reads the next two bytes at this buffer's current position,
          * composing them into a short value according to the current byte order,
@@ -152,10 +208,10 @@ namespace bytebuf {
         ByteBuffer& position(const size_t& newPosition);
 
         const size_t& limit() const;
-        ByteBuffer& limit(const size_t& newLimit);        
-        
+        ByteBuffer& limit(const size_t& newLimit);
+
         ByteBuffer& movePosition(const size_t& length, const bool isReverse = false);
-//        void modifyMemery(const uint8_t* src, const size_t& offset, const size_t& length, const size_t& position);
+        //        void modifyMemery(const uint8_t* src, const size_t& offset, const size_t& length, const size_t& position);
 
 
         //        const uint8_t& at(const size_t& position) const;
@@ -176,8 +232,8 @@ namespace bytebuf {
         std::string to_dec(const size_t& offset, const size_t& length);
         std::string to_oct();
         std::string to_oct(const size_t& offset, const size_t& length);
-        
-        
+
+
         ByteBuffer& readOnly(const bool& readOnly);
         const bool& readOnly() const;
         //        uint8_t* arrayOfPosition() const;
@@ -193,8 +249,8 @@ namespace bytebuf {
         bool m_readOnly;
 
         ByteBuffer(const size_t& pos, const size_t& lim, const size_t& cap, uint8_t* hb, const bool& isWrapped);
-//        static void checkBounds(const int& off, const int& len, const int& cap);
-        
+        //        static void checkBounds(const int& off, const int& len, const int& cap);
+
         /**
          * check whether remaining is more than bufferOffset + length
          * @param bufferOffset
