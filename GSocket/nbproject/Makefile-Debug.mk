@@ -53,25 +53,27 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../ByteBuffer/dist
+LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ../lib/libgsocket.${CND_DLIB_EXT}
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ../libs/libgsocket.a
 
-../lib/libgsocket.${CND_DLIB_EXT}: ${OBJECTFILES}
-	${MKDIR} -p ../lib
-	${LINK.cc} -o ../lib/libgsocket.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -lbytebuffer -shared -fPIC
+../libs/libgsocket.a: ${OBJECTFILES}
+	${MKDIR} -p ../libs
+	${RM} ../libs/libgsocket.a
+	${AR} -rv ../libs/libgsocket.a ${OBJECTFILES} 
+	$(RANLIB) ../libs/libgsocket.a
 
 ${OBJECTDIR}/src/socket.o: src/socket.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/socket.o src/socket.cpp
+	$(COMPILE.cc) -g -I../bytebuffer/src -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/socket.o src/socket.cpp
 
 ${OBJECTDIR}/src/socketserver.o: src/socketserver.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../ByteBuffer/src -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/socketserver.o src/socketserver.cpp
+	$(COMPILE.cc) -g -I../bytebuffer/src -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/socketserver.o src/socketserver.cpp
 
 # Subprojects
 .build-subprojects:

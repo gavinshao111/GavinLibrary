@@ -56,16 +56,18 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ../lib/libbytebuffer.${CND_DLIB_EXT}
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ../libs/libbytebuffer.a
 
-../lib/libbytebuffer.${CND_DLIB_EXT}: ${OBJECTFILES}
-	${MKDIR} -p ../lib
-	${LINK.cc} -o ../lib/libbytebuffer.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -shared -fPIC
+../libs/libbytebuffer.a: ${OBJECTFILES}
+	${MKDIR} -p ../libs
+	${RM} ../libs/libbytebuffer.a
+	${AR} -rv ../libs/libbytebuffer.a ${OBJECTFILES} 
+	$(RANLIB) ../libs/libbytebuffer.a
 
 ${OBJECTDIR}/src/ByteBuffer.o: src/ByteBuffer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ByteBuffer.o src/ByteBuffer.cpp
+	$(COMPILE.cc) -g -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/ByteBuffer.o src/ByteBuffer.cpp
 
 # Subprojects
 .build-subprojects:

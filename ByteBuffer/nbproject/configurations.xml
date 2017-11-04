@@ -5,6 +5,12 @@
       <itemPath>src/ByteBuffer.cpp</itemPath>
       <itemPath>src/ByteBuffer.h</itemPath>
     </logicalFolder>
+    <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
+    </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="测试文件"
                    projectFiles="false"
@@ -14,10 +20,7 @@
                    displayName="重要文件"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Android.mk</itemPath>
-      <itemPath>Application.mk</itemPath>
       <itemPath>Makefile</itemPath>
-      <itemPath>ndk_build.sh</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -25,23 +28,26 @@
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="Debug" type="2">
+    <conf name="Debug" type="3">
       <toolsSet>
         <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
-        <linkerTool>
-          <output>../lib/libbytebuffer.${CND_DLIB_EXT}</output>
-        </linkerTool>
+        <ccTool>
+          <standard>11</standard>
+        </ccTool>
+        <archiverTool>
+          <output>../libs/libbytebuffer.a</output>
+        </archiverTool>
       </compileType>
       <item path="src/ByteBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ByteBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
-    <conf name="Release" type="2">
+    <conf name="Release" type="3">
       <toolsSet>
         <compilerSet>default</compilerSet>
         <dependencyChecking>true</dependencyChecking>
@@ -60,6 +66,8 @@
         <asmTool>
           <developmentMode>5</developmentMode>
         </asmTool>
+        <archiverTool>
+        </archiverTool>
       </compileType>
       <item path="src/ByteBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>

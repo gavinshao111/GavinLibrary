@@ -56,16 +56,18 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ../lib/libgutil.${CND_DLIB_EXT}
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ../libs/libgutil.a
 
-../lib/libgutil.${CND_DLIB_EXT}: ${OBJECTFILES}
-	${MKDIR} -p ../lib
-	${LINK.cc} -o ../lib/libgutil.${CND_DLIB_EXT} ${OBJECTFILES} ${LDLIBSOPTIONS} -shared -fPIC
+../libs/libgutil.a: ${OBJECTFILES}
+	${MKDIR} -p ../libs
+	${RM} ../libs/libgutil.a
+	${AR} -rv ../libs/libgutil.a ${OBJECTFILES} 
+	$(RANLIB) ../libs/libgutil.a
 
 ${OBJECTDIR}/src/utility.o: src/utility.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/utility.o src/utility.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/utility.o src/utility.cpp
 
 # Subprojects
 .build-subprojects:

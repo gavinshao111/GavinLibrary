@@ -19,6 +19,7 @@
 #include <string>
 #include <stdexcept>
 #include <ostream>
+#include <memory>
 
 namespace bytebuf {
     //#define IndexOutOfBounds 1
@@ -260,6 +261,7 @@ namespace bytebuf {
         ByteBuffer& checkRemaining(const size_t& bufferOffset, const size_t& length);
 
     };
+    typedef std::shared_ptr<ByteBuffer> sharedptr_t;
 }
 #endif /* BYTEBUFFER_H */
 

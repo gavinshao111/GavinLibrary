@@ -20,14 +20,14 @@ public class RTPReceiver {
     private static final byte EndOrderCode = 1;
     private static final byte MidOrderCode = 0;
     private static final byte[] NaluStartCode = new byte[]{0, 0, 0, 1};
-    public static final int RTP_SIZE = 5000;
+    public static final int RTP_SIZE = 10000;
 
     public enum RtpType {
         STAP_A, FU_START, FU_NONSTART, OTHER;
     }
     
     // debug
-    public static PrintWriter s_logPw;
+    //public static PrintWriter s_logPw;
 
     private static boolean DEBUG;
     private final int[] TypeArray;
@@ -137,7 +137,10 @@ public class RTPReceiver {
                 }
                 short channelNumber = (short) m_tcpIs.read();
                 rtpPacketSize = m_tcpIs.read() << 8 | m_tcpIs.read();
-                s_logPw.println("rtp size: " + rtpPacketSize);
+                if (rtpPacketSize > RTP_SIZE)
+                    throw new RuntimeException("rtpPacketSize: " + rtpPacketSize + " is larger then " + RTP_SIZE);
+//                s_logPw.println("rtp size: " + rtpPacketSize);
+                //System.out.println("rtp size: " + rtpPacketSize);
                 int curBytesRead = 0;
                 while (curBytesRead < rtpPacketSize) {
                     curBytesRead += m_tcpIs.read(m_rtpPacketBuf, curBytesRead, rtpPacketSize - curBytesRead);
@@ -192,12 +195,12 @@ public class RTPReceiver {
             if (rtpType != RtpType.FU_NONSTART) {
                 naluInCurrentPacket.put(NaluStartCode);
                 // debug
-                if (m_naluSizeTmp > 0)  // 写入上一个nalu的长度
-                    s_logPw.println("nalu size: " + m_naluSizeTmp);
+                //if (m_naluSizeTmp > 0)  // 写入上一个nalu的长度
+                    //s_logPw.println("nalu size: " + m_naluSizeTmp);
                 m_naluSizeTmp = 0;
             }
             m_naluSizeTmp += frameSize;
-            s_logPw.println("m_naluSizeTmp: " + m_naluSizeTmp);
+            //s_logPw.println("m_naluSizeTmp: " + m_naluSizeTmp);
             naluInCurrentPacket.put(m_rtpBuf.array(), m_rtpBuf.position(), frameSize);
             m_rtpBuf.position(m_rtpBuf.position() + frameSize);
 

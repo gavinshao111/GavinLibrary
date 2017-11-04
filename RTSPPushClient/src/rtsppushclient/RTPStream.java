@@ -145,7 +145,7 @@ public class RTPStream {
             throw RTSPSession.IllegalArguementException;
         }
 
-        if (length > MAXSIZE_OF_NALUPAYLOAD_PACK_INTO_A_RTP) {
+        if (length >= MAXSIZE_OF_NALUPAYLOAD_PACK_INTO_A_RTP) {
             int sizeRemaining = length;
             if (m_rtpPayload.position() > 0) {   // 之前有数据没发送
                 m_rtpPayload.flip();
