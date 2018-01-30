@@ -1,27 +1,44 @@
-
 #include "utility.h"
+#include <sstream>
+#include <stdexcept>
+#include <iomanip>
 
 using namespace std;
 
-string gutility::timeToStr(const time_t& time, const string& format) {
-    struct ::tm* timeTM;
-    char strTime[100] = {0};
+const string gutility::default_time_format("%Y-%m-%d %H:%M:%S");
 
-    timeTM = ::localtime(&time);
-    ::strftime(strTime, sizeof (strTime) - 1, format.c_str(), timeTM);
-    string timeStr(strTime);
-    return timeStr;
+time_t gutility::str_2_time(const char* format, const char* src) {
+    if (!format || !src) throw runtime_error(string("gutility::") + __func__ + ": invalid argument");
+    tm TM;
+#ifdef _LIBCPP_COMPILER_CLANG
+    if (NULL != ::strptime(src, format, &TM))
+#else
+    istringstream ss(src);
+    ss >> get_time(&TM, format);
+    if (!ss.fail())
+#endif
+    {
+        time_t r = mktime(&TM);
+        if (r >= 0) return r;
+    }
+    throw runtime_error(string("gutility::") + __func__ + ": transfer fail, format: " + format + ", src: " + src);
 }
 
-string gutility::timeToStr(const time_t& time) {
-    return gutility::timeToStr(time, gutility::defaultTimeFormat);
+string gutility::time(const time_t& time, const char* format){
+    struct tm* timeTM;
+    char strTime[1024] = {0};
+
+    timeTM = localtime(&time);
+    strftime(strTime, sizeof (strTime) - 1, format, timeTM);
+    return string(strTime);
 }
 
-string gutility::timeToStr(const string& format) {
-    return gutility::timeToStr(time(NULL), format);
+string gutility::time(const time_t& time, const string& format/* = util::default_time_format*/) {
+    return gutility::time(time, format.c_str());
 }
-string gutility::timeToStr() {
-    return gutility::timeToStr(gutility::defaultTimeFormat);
+
+string gutility::now(const string& format/* = default_time_format*/) {
+    return gutility::time(std::time(nullptr), format.c_str());
 }
 
 vector<string> gutility::str_split(const string& src, const char& separator) {

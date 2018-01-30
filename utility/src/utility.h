@@ -14,11 +14,12 @@
 #include <ctime>
 
 namespace gutility {
-    const static std::string defaultTimeFormat("%Y-%m-%d %H:%M:%S");
-    std::string timeToStr(const std::time_t& time, const std::string& format);
-    std::string timeToStr(const std::string& format);
-    std::string timeToStr(const std::time_t& time);
-    std::string timeToStr();
+    extern const std::string default_time_format;
+    
+    std::time_t str_2_time(const char* format, const char* src);
+    std::string time(const time_t& time, const std::string& format = default_time_format);
+    std::string time(const time_t& time, const char* format);
+    std::string now(const std::string& format = default_time_format);
     
     std::vector<std::string> str_split(const std::string& src, const char& separator);
     std::string str_trim(std::string&& src);

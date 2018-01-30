@@ -15,13 +15,13 @@ CND_PACKAGE_DIR_Debug=dist/Debug/GNU-Linux/package
 CND_PACKAGE_NAME_Debug=utility.tar
 CND_PACKAGE_PATH_Debug=dist/Debug/GNU-Linux/package/utility.tar
 # Release configuration
-CND_PLATFORM_Release=GNU-Linux
-CND_ARTIFACT_DIR_Release=dist/Release/GNU-Linux
+CND_PLATFORM_Release=None-Linux
+CND_ARTIFACT_DIR_Release=dist/Release/None-Linux
 CND_ARTIFACT_NAME_Release=libutility.a
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-Linux/libutility.a
-CND_PACKAGE_DIR_Release=dist/Release/GNU-Linux/package
+CND_ARTIFACT_PATH_Release=dist/Release/None-Linux/libutility.a
+CND_PACKAGE_DIR_Release=dist/Release/None-Linux/package
 CND_PACKAGE_NAME_Release=utility.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-Linux/package/utility.tar
+CND_PACKAGE_PATH_Release=dist/Release/None-Linux/package/utility.tar
 #
 # include compiler specific variables
 #
