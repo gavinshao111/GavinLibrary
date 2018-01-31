@@ -22,6 +22,10 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>Android.mk</itemPath>
+    <itemPath>Application.mk</itemPath>
+    <itemPath>nbproject/Makefile-Debug.mk</itemPath>
+    <itemPath>ndk_build.sh</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>src</Elem>
@@ -37,11 +41,20 @@
       <compileType>
         <ccTool>
           <standard>11</standard>
+          <commandLine>-fPIC</commandLine>
         </ccTool>
         <archiverTool>
           <output>../libs/libbytebuffer.a</output>
         </archiverTool>
       </compileType>
+      <item path="Android.mk" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Application.mk" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="nbproject/Makefile-Debug.mk" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ndk_build.sh" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/ByteBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ByteBuffer.h" ex="false" tool="3" flavor2="0">
@@ -69,6 +82,14 @@
         <archiverTool>
         </archiverTool>
       </compileType>
+      <item path="Android.mk" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Application.mk" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="nbproject/Makefile-Debug.mk" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ndk_build.sh" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/ByteBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ByteBuffer.h" ex="false" tool="3" flavor2="0">

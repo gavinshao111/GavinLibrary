@@ -174,14 +174,14 @@ namespace bytebuf {
          *         written; must be non-negative and no larger than
          *         <tt>dst.length</tt>
          *
-         * @param  dst_length
-         *         The length of dst.
-         *
          * @param  length
          *         The maximum number of bytes to be written to the given
          *         array; must be non-negative and no larger than
          *         <tt>dst.length - offset</tt>
          * 
+         * @param  dst_length
+         *         The length of dst.
+         *
          * @return  This buffer
          *
          * @throws  BufferUnderflowException
