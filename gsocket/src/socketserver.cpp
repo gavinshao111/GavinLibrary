@@ -17,7 +17,6 @@
 #include <cstdio>
 #include <cerrno>
 #include <cstring>
-#include <boost/smart_ptr/make_shared_object.hpp>
 
 #include "socketserver.h"
 
@@ -60,7 +59,7 @@ socketserver::~socketserver() {
     close();
 }
 
-boost::shared_ptr<gsocket::socket> socketserver::accept() {
+std::shared_ptr<gsocket::socket> socketserver::accept() {
     struct ::sockaddr clientaddr;
     ::socklen_t addrlen = sizeof (clientaddr);
     int clientfd = ::accept(m_socketFd, &clientaddr, &addrlen);
@@ -70,9 +69,9 @@ boost::shared_ptr<gsocket::socket> socketserver::accept() {
     }
     /*
      * because socket(const int& fd, const struct sockaddr& clientaddr) is private, 
-     * we can't use boost::make_shared to construct a socket;
+     * we can't use std::make_shared to construct a socket;
      */
-    return boost::shared_ptr<gsocket::socket>(new gsocket::socket(clientfd, clientaddr));
+    return std::shared_ptr<gsocket::socket>(new gsocket::socket(clientfd, clientaddr));
 }
 
 void socketserver::close() {

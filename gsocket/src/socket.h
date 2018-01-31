@@ -17,6 +17,7 @@
 #include <string>
 #include <netinet/in.h>
 #include <stdexcept>
+#include <memory>
 #ifdef UseBoostMutex
 #include <boost/thread/mutex.hpp>
 #else
@@ -103,6 +104,12 @@ namespace gsocket {
          * 循环直到时间超过timeout。这样可以避免即使连接断开，函数仍阻塞的情况。
          */
         void read(bytebuf::ByteBuffer& dest, const size_t& size, const size_t& timeout = 0);
+        
+        /**
+         * 将tcp缓冲区数据读完
+         * @return 
+         */
+        std::shared_ptr<bytebuf::ByteBuffer> read_left();
 
         void write(bytebuf::ByteBuffer& src, const size_t& size);
 

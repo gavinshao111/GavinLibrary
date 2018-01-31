@@ -14,7 +14,7 @@
 #ifndef SOCKETSERVER_H
 #define SOCKETSERVER_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "socket.h"
 namespace gsocket {
@@ -22,7 +22,7 @@ namespace gsocket {
 class socketserver {
 public:
     socketserver(const int& port);
-    boost::shared_ptr<socket> accept();
+    std::shared_ptr<socket> accept();
     virtual ~socketserver();
     void close();
     

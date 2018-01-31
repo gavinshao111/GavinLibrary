@@ -30,12 +30,12 @@
 #include <stdexcept>
 #include <cstring>
 #include <cerrno>
-
 #include "socket.h"
 
 using namespace gsocket;
 using namespace bytebuf;
 
+const static char* class_name = "socket";
 extern int errno;
 const static int ConnectionRefusedErrCode = 111;
 const static int BadFileDescriptor = 9;
@@ -147,7 +147,7 @@ void socket::read_old(ByteBuffer& dest, const size_t& size, const size_t& timeou
     int currNumread;
     struct ::timeval* timeLeft;
 
-    struct ::timeval tv = {(time_t)timeout / 1000, 0};
+    struct ::timeval tv = {(time_t) timeout / 1000, 0};
     if (0 == timeout)
         timeLeft = NULL;
     else {
@@ -197,7 +197,7 @@ void socket::read(ByteBuffer& dest, const size_t& size, const size_t& timeout/* 
     struct ::timeval t_100ms = {100 / 1000, 0};
 
     for (; size > actualNumread;) {
-        for (size_t t_100msUsed = 0;;usleep(900)) {
+        for (size_t t_100msUsed = 0;; usleep(900)) {
             if (!this->isConnected())
                 throw SocketException("socket::read(): connection closed");
             // select返回后会把以前加入的但并无事件发生的fd清空
@@ -234,3 +234,24 @@ void socket::read(ByteBuffer& dest, const size_t& size, const size_t& timeout/* 
     }
 }
 
+std::shared_ptr<bytebuf::ByteBuffer> socket::read_left() {
+    if (!isConnected()) {
+        return nullptr;
+    }
+#ifdef UseBoostMutex
+    boost::unique_lock<boost::mutex> lk(m_readMutex);
+#else
+    std::unique_lock<std::mutex> lk(m_readMutex);
+#endif
+    // todo: 缓冲区数据大于0x400，循环读取拼接ByteBuffer返回
+    auto data = std::make_shared<bytebuf::ByteBuffer>(0x400);
+    ::ssize_t read_count = ::read(m_socketFd, data->array(), data->remaining());
+    if (0 > read_count) { // if u send data first but he didn't read and then u block to read, then he close connection, return value < 0
+        throw SocketException(std::string(class_name) + "::" + __func__ + ": ::read fail: " + ::strerror(errno));
+    }
+    if (0 == read_count) {
+        throw SocketException("socket::read(): connection closed");
+    }
+    data->limit(read_count);
+    return data;
+}
