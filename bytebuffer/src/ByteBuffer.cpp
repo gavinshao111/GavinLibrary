@@ -115,7 +115,7 @@ bool ByteBuffer::hasRemaining() const {
 //        throw ByteBufferException("ByteBuffer::checkBounds(): IndexOutOfBounds");
 //}
 
-ByteBuffer& ByteBuffer::checkRemaining(const size_t& bufferOffset, const size_t& length) {
+void ByteBuffer::checkRemaining(const size_t& bufferOffset, const size_t& length) const{
     if (m_position + bufferOffset + length > m_limit) {
         stringstream s;
         s << "ByteBuffer::checkRemaining(): BufferOverflow"
@@ -125,7 +125,6 @@ ByteBuffer& ByteBuffer::checkRemaining(const size_t& bufferOffset, const size_t&
                 << ", m_limit: " << m_limit;
         throw ByteBufferException(s.str());
     }
-    return *this;
 }
 
 size_t ByteBuffer::remaining() const {
@@ -317,21 +316,21 @@ uint8_t* ByteBuffer::array() const {
     return m_hb;
 }
 
-string ByteBuffer::to_str() {
+string ByteBuffer::to_str() const {
     return to_str(0, remaining());
 }
 
-string ByteBuffer::to_str(const size_t& offset, const size_t& length) {
+string ByteBuffer::to_str(const size_t& offset, const size_t& length) const {
     checkRemaining(offset, length);
     string str((char*) &m_hb[m_position + offset], length);
     return str;
 }
 
-string ByteBuffer::to_hex() {
+string ByteBuffer::to_hex() const {
     return to_hex(0, remaining());
 }
 
-string ByteBuffer::to_hex(const size_t& offset, const size_t& length) {
+string ByteBuffer::to_hex(const size_t& offset, const size_t& length) const {
     checkRemaining(offset, length);
     stringstream s;
     for (size_t i = 0; i < length; i++)
@@ -339,11 +338,11 @@ string ByteBuffer::to_hex(const size_t& offset, const size_t& length) {
     return s.str();
 }
 
-string ByteBuffer::to_dec() {
+string ByteBuffer::to_dec() const {
     return to_dec(0, remaining());
 }
 
-string ByteBuffer::to_dec(const size_t& offset, const size_t& length) {
+string ByteBuffer::to_dec(const size_t& offset, const size_t& length) const {
     checkRemaining(offset, length);
     stringstream s;
     for (size_t i = 0; i < length; i++)
@@ -351,11 +350,11 @@ string ByteBuffer::to_dec(const size_t& offset, const size_t& length) {
     return s.str();
 }
 
-string ByteBuffer::to_oct() {
+string ByteBuffer::to_oct() const {
     return to_oct(0, remaining());
 }
 
-string ByteBuffer::to_oct(const size_t& offset, const size_t& length) {
+string ByteBuffer::to_oct(const size_t& offset, const size_t& length) const {
     checkRemaining(offset, length);
     stringstream s;
     for (size_t i = 0; i < length; i++)

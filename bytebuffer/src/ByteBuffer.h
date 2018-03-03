@@ -224,15 +224,15 @@ namespace bytebuf {
         }
 
         uint8_t* array() const;
-        std::string to_str();
-        std::string to_str(const size_t& offset, const size_t& length);
+        std::string to_str() const;
+        std::string to_str(const size_t& offset, const size_t& length) const;
 
-        std::string to_hex();
-        std::string to_hex(const size_t& offset, const size_t& length);
-        std::string to_dec();
-        std::string to_dec(const size_t& offset, const size_t& length);
-        std::string to_oct();
-        std::string to_oct(const size_t& offset, const size_t& length);
+        std::string to_hex() const;
+        std::string to_hex(const size_t& offset, const size_t& length) const;
+        std::string to_dec() const;
+        std::string to_dec(const size_t& offset, const size_t& length) const;
+        std::string to_oct() const;
+        std::string to_oct(const size_t& offset, const size_t& length) const;
 
 
         ByteBuffer& readOnly(const bool& readOnly);
@@ -258,7 +258,7 @@ namespace bytebuf {
          * offset from current position
          * @param length
          */
-        ByteBuffer& checkRemaining(const size_t& bufferOffset, const size_t& length);
+        void checkRemaining(const size_t& bufferOffset, const size_t& length) const;
 
     };
     typedef std::shared_ptr<ByteBuffer> sharedptr_t;
